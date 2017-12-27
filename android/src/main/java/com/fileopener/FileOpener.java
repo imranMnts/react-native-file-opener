@@ -93,13 +93,13 @@ public class FileOpener extends ReactContextBaseJavaModule {
                 }
                 getReactApplicationContext().startActivity(intent);
 
-                promise.resolve("请选择您想要打开的软件");
+                promise.resolve("");
             } catch (android.content.ActivityNotFoundException e) {
-                promise.reject("");
+                promise.reject("打开失败");
                 Log.e("file-opener", e.toString());
             }
         } else {
-            promise.reject("");
+            promise.reject("找不到您要打开的文件");
             Log.e("file-opener", "找不到您要打开的文件");
         }
     }

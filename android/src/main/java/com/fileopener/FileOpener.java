@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -94,10 +95,12 @@ public class FileOpener extends ReactContextBaseJavaModule {
 
                 promise.resolve("请选择您想要打开的软件");
             } catch (android.content.ActivityNotFoundException e) {
-                promise.reject("打开失败");
+                promise.reject("");
+                Log.e("file-opener", e.toString());
             }
         } else {
-            promise.reject("找不到您要打开的文件");
+            promise.reject("");
+            Log.e("file-opener", "找不到您要打开的文件");
         }
     }
 

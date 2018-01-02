@@ -78,15 +78,17 @@ public class FileOpener extends ReactContextBaseJavaModule {
             * */
             try {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    path = FileProvider.getUriForFile(getReactApplicationContext(), getReactApplicationContext().getPackageName()+".provider", file);
+                    path = FileProvider.getUriForFile(getReactApplicationContext(), getReactApplicationContext().getPackageName()+".fileprovider", file);
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 } else {
                     path = Uri.fromFile(file);
                 }
+                Log.d("path", path.toString());
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.setDataAndType(path, contentType);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
                 if (intent.resolveActivity(getReactApplicationContext().getPackageManager()) == null) {
                     promise.reject("当前系统中没有可以打开" + contentType + "的软件，请先安装相应的App");
                     return;

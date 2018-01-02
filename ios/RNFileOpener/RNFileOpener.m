@@ -11,7 +11,7 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_REMAP_METHOD(open, filePath:(NSString *)filePath fileMine:(NSString *)fileMine fromRect:(CGRectMake)rect
+RCT_REMAP_METHOD(open, filePath:(NSString *)filePath fileMine:(NSString *)fileMine fromRect:(CGRect)rect
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject)
 {

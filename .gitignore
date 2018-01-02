@@ -1,3 +1,4 @@
 node_modules
 *.log
 /android/build
+android/.gradle/*

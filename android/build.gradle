@@ -10,6 +10,7 @@ def computeVersionName() {
 buildscript {
     repositories {
         jcenter()
+        google()
     }
 
     dependencies {

@@ -33,6 +33,6 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "react-native": "^0.20.0"
+    "react-native": "^0.50.0"
   }
 }

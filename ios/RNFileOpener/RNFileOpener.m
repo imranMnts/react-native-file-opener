@@ -11,7 +11,7 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_REMAP_METHOD(open, filePath:(NSString *)filePath fileMine:(NSString *)fileMine fromRect:(CGRect)rect
+RCT_REMAP_METHOD(open, filePath:(NSString *)filePath fileMine:(NSString *)fileMine
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject)
 {
@@ -32,10 +32,10 @@ RCT_REMAP_METHOD(open, filePath:(NSString *)filePath fileMine:(NSString *)fileMi
     
     BOOL wasOpened = [self.FileOpener presentOpenInMenuFromRect:ctrl.view.bounds inView:ctrl.view animated:YES];
         
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
-        wasOpened = [self.FileOpener presentOptionsMenuFromRect:rect inView:ctrl.view animated:YES];
-    }
+    // if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    // {
+    //     wasOpened = [self.FileOpener presentOptionsMenuFromRect:rect inView:ctrl.view animated:YES];
+    // }
     
     if (wasOpened) {
         resolve(@"Open success!!");

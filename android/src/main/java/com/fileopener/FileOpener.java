@@ -62,18 +62,18 @@ public class FileOpener extends ReactContextBaseJavaModule {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.setDataAndType(path, contentType);
                 if (intent.resolveActivity(getReactApplicationContext().getPackageManager()) == null) {
-                    promise.reject("No app to open a " + contentType + " file on your device");
+                    promise.reject("1", "No app to open a " + contentType + " file on your device");
                     return;
                 }
                 getReactApplicationContext().startActivity(intent);
 
                 promise.resolve("");
             } catch (android.content.ActivityNotFoundException e) {
-                promise.reject("Error to open");
+                promise.reject("2", "Error to open");
                 Log.e("file-opener", e.toString());
             }
         } else {
-            promise.reject("Can't find the file");
+            promise.reject("3", "File not found");
             Log.e("file-opener", "Can't find the file");
         }
     }

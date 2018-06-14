@@ -44,7 +44,7 @@ public class FileOpener extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void open(String fileArg, String contentType, Promise promise) throws JSONException {
+    public void open(String fileArg, String contentType, String chooserTitle, Promise promise) throws JSONException {
         File file = new File(fileArg);
         if (file.exists()) {
             Uri path;
@@ -55,18 +55,21 @@ public class FileOpener extends ReactContextBaseJavaModule {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     path = FileProvider.getUriForFile(getReactApplicationContext(), getReactApplicationContext().getPackageName()+".fileprovider", file);
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
                 } else {
                     path = Uri.fromFile(file);
                 }
-                Log.d("path", path.toString());
+                Log.d("path+", path.toString());
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.setDataAndType(path, contentType);
                 if (intent.resolveActivity(getReactApplicationContext().getPackageManager()) == null) {
                     promise.reject("1", "No app to open a " + contentType + " file on your device");
                     return;
                 }
+                if (chooserTitle != null) {
+                    intent = Intent.createChooser(intent, chooserTitle);
+                }
                 getReactApplicationContext().startActivity(intent);
-
                 promise.resolve("");
             } catch (android.content.ActivityNotFoundException e) {
                 promise.reject("2", "Error to open");
@@ -77,5 +80,4 @@ public class FileOpener extends ReactContextBaseJavaModule {
             Log.e("file-opener", "Can't find the file");
         }
     }
-
 }

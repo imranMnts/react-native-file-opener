@@ -50,8 +50,6 @@ public class FileOpener extends ReactContextBaseJavaModule {
             Uri path;
             try {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     path = FileProvider.getUriForFile(getReactApplicationContext(), getReactApplicationContext().getPackageName()+".fileprovider", file);
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -60,7 +58,6 @@ public class FileOpener extends ReactContextBaseJavaModule {
                     path = Uri.fromFile(file);
                 }
                 Log.d("path+", path.toString());
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.setDataAndType(path, contentType);
                 if (intent.resolveActivity(getReactApplicationContext().getPackageManager()) == null) {
                     promise.reject("1", "No app to open a " + contentType + " file on your device");
@@ -69,6 +66,7 @@ public class FileOpener extends ReactContextBaseJavaModule {
                 if (chooserTitle != null) {
                     intent = Intent.createChooser(intent, chooserTitle);
                 }
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 getReactApplicationContext().startActivity(intent);
                 promise.resolve("");
             } catch (android.content.ActivityNotFoundException e) {
